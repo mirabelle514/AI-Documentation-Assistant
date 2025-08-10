@@ -66,6 +66,9 @@ Requirements:
 - Include proper error handling
 - Follow the existing design system patterns
 
+Component Specifications:
+${this.getComponentSpecifications(componentName, componentDetails)}
+
 Generate clean, production-ready code for your design system. Only respond with the code, no explanations.`;
 
     try {
