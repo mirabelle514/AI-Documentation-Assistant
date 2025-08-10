@@ -15,7 +15,7 @@ class AIService {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-api-key": process.env.REACT_APP_ANTHROPIC_API_KEY || "",
+          "x-api-key": process.env.REACT_APP_CLAUDE_API_KEY || "",
           "anthropic-version": "2023-06-01"
         },
         body: JSON.stringify({
@@ -41,8 +41,8 @@ class AIService {
 
   async generateComponentCode({ componentName, framework, styling, componentDetails }: EnhancedCodeGenerationRequest): Promise<string> {
     // Check if API key is available
-    if (!process.env.REACT_APP_ANTHROPIC_API_KEY) {
-      console.warn('No Anthropic API key found. Using fallback code generation.');
+    if (!process.env.REACT_APP_CLAUDE_API_KEY) {
+      console.warn('No Claude API key found. Using fallback code generation.');
       return this.generateFallbackCode(componentName, framework, styling, componentDetails);
     }
 
