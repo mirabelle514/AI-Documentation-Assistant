@@ -38,6 +38,11 @@ Upload these files to your cPanel's `public_html` directory:
   - `VITE_CLAUDE_API_KEY` - Your Claude AI API key
   - `VITE_STORYBOOK_URL` - Your Storybook URL (optional)
 
+### **AI Functionality Setup**
+- **Want AI features to work?** See `AI_SETUP.md` for detailed instructions
+- **Need help with Claude API key?** Check the AI setup guide
+- **AI features include:** Component generation, code analysis, smart insights
+
 ### **Storybook Connection**
 - The app is configured to connect to your Chromatic Storybook
 - If you need to change the URL, update `src/services/storybookService.ts`
@@ -67,6 +72,7 @@ Upload these files to your cPanel's `public_html` directory:
 ### **If AI features don't work:**
 - Verify your Claude API key is set correctly
 - Check browser console for any error messages
+- See `AI_SETUP.md` for detailed troubleshooting
 
 ## **Performance:**
 - **CSS**: 26KB (5.19KB gzipped)
@@ -79,3 +85,4 @@ Your app is optimized and ready for production! 🎉
 - Check browser console for errors
 - Verify all files are uploaded correctly
 - Ensure proper file permissions in cPanel
+- **For AI setup help:** See `AI_SETUP.md`
