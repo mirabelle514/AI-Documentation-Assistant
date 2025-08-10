@@ -1,10 +1,10 @@
-# 🤖 AI Functionality Setup Guide
+# AI Functionality Setup Guide
 
-## **Getting Your AI Features Working in cPanel**
+## Getting Your AI Features Working in cPanel
 
 Your AI Design System has all the AI functionality built-in, but you need to configure your Claude API key to make it work.
 
-## **Step 1: Get Your Claude API Key**
+## Step 1: Get Your Claude API Key
 
 1. **Go to [Anthropic Console](https://console.anthropic.com/)**
 2. **Sign in or create an account**
@@ -12,9 +12,9 @@ Your AI Design System has all the AI functionality built-in, but you need to con
 4. **Create a new API key**
 5. **Copy the key** (starts with `sk-ant-...`)
 
-## **Step 2: Set Environment Variables in cPanel**
+## Step 2: Set Environment Variables in cPanel
 
-### **Option A: Using cPanel Environment Variables (Recommended)**
+### Option A: Using cPanel Environment Variables (Recommended)
 
 1. **Login to cPanel**
 2. **Go to "Software" → "Setup Node.js App"**
@@ -24,7 +24,7 @@ Your AI Design System has all the AI functionality built-in, but you need to con
    - **Value:** `sk-ant-...` (your actual API key)
 5. **Save and restart the app**
 
-### **Option B: Using .htaccess (Alternative)**
+### Option B: Using .htaccess (Alternative)
 
 1. **In cPanel File Manager, create/edit `.htaccess` file**
 2. **Add this line:**
@@ -32,7 +32,7 @@ Your AI Design System has all the AI functionality built-in, but you need to con
    SetEnv VITE_CLAUDE_API_KEY "sk-ant-...your-key-here..."
    ```
 
-### **Option C: Using PHP (If you have PHP enabled)**
+### Option C: Using PHP (If you have PHP enabled)
 
 1. **Create a `config.php` file in your root directory**
 2. **Add:**
@@ -42,7 +42,7 @@ Your AI Design System has all the AI functionality built-in, but you need to con
    ?>
    ```
 
-## **Step 3: Test AI Functionality**
+## Step 3: Test AI Functionality
 
 After setting up your API key:
 
@@ -54,20 +54,20 @@ After setting up your API key:
    - Select styling approach (Tailwind, CSS Modules, etc.)
    - Click "Generate Code"
 
-## **Step 4: Verify It's Working**
+## Step 4: Verify It's Working
 
-### **Success Indicators:**
-- ✅ Code generation completes without errors
-- ✅ Generated code appears in the output area
-- ✅ No "fallback code generation" messages
-- ✅ Console shows successful API calls
+### Success Indicators:
+- Code generation completes without errors
+- Generated code appears in the output area
+- No "fallback code generation" messages
+- Console shows successful API calls
 
-### **Troubleshooting:**
-- ❌ **"No Claude API key found"** → API key not set correctly
-- ❌ **"Using fallback code generation"** → API key not accessible
-- ❌ **Network errors** → Check API key format and permissions
+### Troubleshooting:
+- **"No Claude API key found"** → API key not set correctly
+- **"Using fallback code generation"** → API key not accessible
+- **Network errors** → Check API key format and permissions
 
-## **Step 5: Optional - Storybook Integration**
+## Step 5: Optional - Storybook Integration
 
 To connect to your Chromatic Storybook:
 
@@ -80,30 +80,30 @@ To connect to your Chromatic Storybook:
    - Storybook connectivity
    - Component analysis features
 
-## **Security Notes:**
+## Security Notes:
 
-⚠️ **Important Security Considerations:**
+**Important Security Considerations:**
 - Never commit your API key to git
 - Use environment variables, not hardcoded values
 - Monitor your API usage in Anthropic Console
 - Set up usage limits if needed
 
-## **API Usage:**
+## API Usage:
 
 Your Claude API key will be used for:
-- 🎨 **Component Generation** - Creating new UI components
-- 🔍 **Code Analysis** - Analyzing existing components
-- 💡 **AI Insights** - Providing design system recommendations
-- 🚀 **Smart Suggestions** - Optimizing your design system
+- **Component Generation** - Creating new UI components
+- **Code Analysis** - Analyzing existing components
+- **AI Insights** - Providing design system recommendations
+- **Smart Suggestions** - Optimizing your design system
 
-## **Testing Your Setup:**
+## Testing Your Setup:
 
 1. **Generate a simple Button component**
 2. **Check the browser console for API calls**
 3. **Verify the generated code quality**
 4. **Test different component types and frameworks**
 
-## **Need Help?**
+## Need Help?
 
 If you're still having issues:
 
@@ -112,7 +112,7 @@ If you're still having issues:
 3. **Test API key** in Anthropic Console
 4. **Check cPanel error logs** for any server issues
 
-## **Example Working Setup:**
+## Example Working Setup:
 
 ```bash
 # In cPanel Environment Variables:
@@ -120,7 +120,7 @@ VITE_CLAUDE_API_KEY=sk-ant-api03-ABC123...XYZ789
 VITE_STORYBOOK_URL=https://687bba4d795507daa442f549-cgildnerdh.chromatic.com
 ```
 
-Once configured, your AI features will work exactly like they do in development! 🚀
+Once configured, your AI features will work exactly like they do in development!
 
 ---
 
