@@ -87,28 +87,28 @@ export const aiInsights: AIInsight[] = [
   {
     type: 'optimization',
     title: 'Unused Component Variants',
-    description: 'Button.ghost variant has 0% usage across projects. Consider deprecating.',
+    description: 'I noticed your Button.ghost variant has 0% usage across projects. Consider deprecating it.',
     priority: 'low',
     savings: '2KB bundle size'
   },
   {
     type: 'accessibility',
     title: 'Color Contrast Issue',
-    description: 'Secondary button on light backgrounds fails WCAG AA standards.',
+    description: 'Your secondary button on light backgrounds fails WCAG AA standards. This needs attention.',
     priority: 'high',
     action: 'Update color-brand-600 token'
   },
   {
     type: 'consistency',
     title: 'Spacing Inconsistency',
-    description: 'Cards use custom margins instead of design tokens in 3 projects.',
+    description: 'I found that your cards use custom margins instead of design tokens in 3 projects. Let me help you fix this.',
     priority: 'medium',
     action: 'Auto-migrate to spacing tokens'
   },
   {
     type: 'maintenance',
     title: 'Outdated Dependencies',
-    description: 'Modal component uses deprecated focus management library.',
+    description: 'Your Modal component uses a deprecated focus management library. Time for an upgrade.',
     priority: 'medium',
     action: 'Upgrade to latest focus-trap version'
   }

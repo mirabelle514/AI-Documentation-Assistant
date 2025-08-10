@@ -46,11 +46,11 @@ class StorybookService {
       this.isConnected = await this.checkStorybookConnection();
       
       if (this.isConnected) {
-        console.log('✅ Connected to Storybook - fetching components');
+        console.log('Connected to Storybook - fetching components');
         const components = await this.getStorybookData();
         return this.transformToComponentArray(components);
       } else {
-        console.log('⚠️ Storybook not available - using fallback data');
+        console.log('Storybook not available - using fallback data');
         return this.getFallbackData();
       }
     } catch (error) {
@@ -110,7 +110,7 @@ class StorybookService {
       return code;
     } catch (error) {
       console.error('Code generation failed:', error);
-      throw new Error('Failed to generate code. Please try again.');
+      throw new Error('Failed to generate code. Try again.');
     }
   }
 

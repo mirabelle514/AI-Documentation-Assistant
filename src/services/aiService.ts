@@ -47,26 +47,19 @@ class AIService {
     }
 
     const prompt = `Create a production-ready ${componentName} component for a design system.
-
+    
 Requirements:
 - Framework: ${framework}
 - Styling: ${styling}
-- Include TypeScript types
-- Follow accessibility best practices
-- Include proper prop interfaces
-- Use forwardRef for DOM access
-- Include multiple variants: ${componentDetails?.variants?.join(', ') || 'primary, secondary, ghost, danger'}
-- Include size variants (sm, md, lg)
-- Include hover and focus states
-- Add proper ARIA attributes
-- Follow modern component patterns
-- Use semantic HTML
-- Include JSDoc comments for props
+- Component: ${componentName}
+- Follow modern React best practices
+- Include proper TypeScript types
+- Ensure accessibility compliance
+- Use semantic HTML elements
+- Include proper error handling
+- Follow the existing design system patterns
 
-Component specifications:
-${this.getComponentSpecifications(componentName, componentDetails)}
-
-Generate clean, professional code that could be used in a real design system. Only respond with the code, no explanations.`;
+Generate clean, production-ready code for your design system. Only respond with the code, no explanations.`;
 
     try {
       const code = await this.callClaudeAPI(prompt);
@@ -92,7 +85,7 @@ Generate clean, professional code that could be used in a real design system. On
 Design System Data:
 ${JSON.stringify(systemData, null, 2)}
 
-Please analyze and provide:
+Analyze and provide:
 1. Coverage score (0-100) - how well components cover common UI needs
 2. Accessibility score (0-100) - overall accessibility compliance
 3. Consistency score (0-100) - how consistent the system is
@@ -223,7 +216,7 @@ export { ${componentName} };`;
     
     // Fallback for other frameworks
     return `// ${componentName} component for ${framework} with ${styling}
-// This is a fallback template. Please configure your API key for AI-generated code.
+// This is a fallback template. Configure your API key for AI-generated code.
 
 export const ${componentName} = () => {
   return (

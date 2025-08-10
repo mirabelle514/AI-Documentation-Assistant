@@ -51,7 +51,7 @@ const CodeGenerator: React.FC<CodeGeneratorProps> = ({ isGenerating, setIsGenera
       setGeneratedCode(code);
     } catch (error) {
       console.error('Code generation failed:', error);
-      setGeneratedCode(`// Error generating code: ${error instanceof Error ? error.message : 'Unknown error'}\n// Please try again or check your connection.`);
+      setGeneratedCode(`// Error generating code: ${error instanceof Error ? error.message : 'Unknown error'}\n// Try again or check your connection.`);
     }
     
     setIsGenerating(false);
@@ -80,7 +80,7 @@ const CodeGenerator: React.FC<CodeGeneratorProps> = ({ isGenerating, setIsGenera
       setGeneratedCode(testCode);
     } catch (error) {
       console.error('Test generation failed:', error);
-      setGeneratedCode(`// Error generating tests: ${error instanceof Error ? error.message : 'Unknown error'}\n// Please try again or check your connection.`);
+      setGeneratedCode(`// Error generating tests: ${error instanceof Error ? error.message : 'Unknown error'}\n// Try again or check your connection.`);
     }
     
     setIsGenerating(false);
@@ -89,7 +89,7 @@ const CodeGenerator: React.FC<CodeGeneratorProps> = ({ isGenerating, setIsGenera
   return (
     <div className="space-y-8">
       <div className="p-8 bg-white rounded-xl border shadow-sm border-brand-200">
-        <h3 className="mb-6 text-xl font-semibold text-brand-900">AI Code Generator</h3>
+        <h3 className="mb-6 text-xl font-semibold text-brand-900">My AI Code Generator</h3>
         <div className="space-y-6">
           <div>
             <label className="block mb-3 text-sm font-semibold text-brand-700">

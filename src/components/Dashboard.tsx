@@ -184,7 +184,7 @@ const Dashboard: React.FC = () => {
           <div className="p-2 mr-3 rounded-lg bg-brand-100">
             <Bot className="w-6 h-6 text-brand-600" />
           </div>
-          AI Insights & Recommendations
+          My AI Insights
         </h3>
         <div className="space-y-6">
           {aiInsights.map((insight, index) => (
@@ -229,7 +229,7 @@ const Dashboard: React.FC = () => {
               <Code className="w-6 h-6 text-brand-600" />
             </div>
             <p className="mb-2 text-base font-semibold text-brand-900">Generate New Component</p>
-            <p className="text-sm text-brand-600">Create a new design system component</p>
+            <p className="text-sm text-brand-600">Create a new component for your design system</p>
           </button>
           
           <button className="p-6 text-left rounded-xl border-2 border-dashed transition-all duration-200 group border-accent-300 hover:border-accent-500 hover:bg-accent-50">
@@ -237,7 +237,7 @@ const Dashboard: React.FC = () => {
               <Palette className="w-6 h-6 text-accent-600" />
             </div>
             <p className="mb-2 text-base font-semibold text-accent-900">Add Design Token</p>
-            <p className="text-sm text-accent-600">Define new design tokens</p>
+            <p className="text-sm text-accent-600">Define new design tokens for your system</p>
           </button>
           
           <button className="p-6 text-left rounded-xl border-2 border-dashed transition-all duration-200 group border-brand-300 hover:border-brand-500 hover:bg-brand-50">
@@ -245,7 +245,7 @@ const Dashboard: React.FC = () => {
               <TrendingUp className="w-6 h-6 text-accent-600" />
             </div>
             <p className="mb-2 text-base font-semibold text-brand-900">Run Analysis</p>
-            <p className="text-sm text-brand-600">Analyze system health</p>
+            <p className="text-sm text-brand-600">Check your system's health</p>
           </button>
         </div>
       </div>

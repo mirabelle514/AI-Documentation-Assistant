@@ -304,7 +304,7 @@ const ComponentLibrary: React.FC<ComponentLibraryProps> = ({ isGenerating, setIs
 
       {analysisResults && (
         <div className="p-8 bg-white rounded-xl border shadow-sm border-brand-200">
-          <h3 className="mb-6 text-xl font-semibold text-brand-900">Design System Health Score</h3>
+          <h3 className="mb-6 text-xl font-semibold text-brand-900">Your Design System Health</h3>
           <div className="grid grid-cols-2 gap-6 mb-6 md:grid-cols-4">
             <div className="text-center">
               <div className="mb-2 text-3xl font-bold text-brand-600">{analysisResults.coverage}%</div>
@@ -324,7 +324,7 @@ const ComponentLibrary: React.FC<ComponentLibraryProps> = ({ isGenerating, setIs
             </div>
           </div>
           <div className="space-y-3">
-            <h4 className="font-semibold text-brand-900">AI Recommendations:</h4>
+            <h4 className="font-semibold text-brand-900">My Recommendations:</h4>
             {analysisResults.recommendations.map((rec, index) => (
               <div key={index} className="flex items-center space-x-3">
                 <div className="p-1 rounded-full bg-brand-100">

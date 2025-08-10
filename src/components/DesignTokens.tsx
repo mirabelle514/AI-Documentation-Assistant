@@ -90,7 +90,7 @@ const DesignTokens: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h2 className="text-3xl font-bold text-brand-900">Design Tokens</h2>
-          <p className="text-brand-600 mt-2">Manage your design system's foundational values</p>
+          <p className="text-brand-600 mt-2">Your design system's foundational values</p>
         </div>
         <button className="px-6 py-3 bg-brand-600 text-white rounded-xl hover:bg-brand-700 flex items-center justify-center space-x-3 transition-all duration-200 font-semibold shadow-sm hover:shadow-md">
           <Plus className="h-5 w-5" />

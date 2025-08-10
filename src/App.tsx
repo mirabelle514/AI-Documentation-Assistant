@@ -24,7 +24,7 @@ const App = () => {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-3">
               <Bot className="h-8 w-8 text-brand-600" />
-              <h1 className="text-xl font-bold text-brand-900">Design System AI Agent</h1>
+              <h1 className="text-xl font-bold text-brand-900">Mirabelle's Design System</h1>
               {isGenerating && (
                 <div className="flex items-center space-x-2 px-3 py-1 bg-brand-100 text-brand-800 rounded-full text-sm">
                   <div className="w-2 h-2 bg-brand-600 rounded-full animate-pulse"></div>
@@ -34,7 +34,7 @@ const App = () => {
             </div>
             <div className="flex items-center space-x-4">
               <div className="text-sm text-brand-600">
-                Powered by Mirabelle + Claude API
+                Built by Mirabelle with Claude AI
               </div>
               <button className="p-2 text-brand-400 hover:text-brand-600">
                 <Settings className="h-5 w-5" />
