@@ -181,9 +181,9 @@ DO NOT OUTPUT ANYTHING OTHER THAN VALID JSON.`;
     } else if (framework.includes('angular')) {
       return this.generateAngularComponent(componentName, styling, variants);
     } else if (framework.includes('svelte')) {
-      return this.generateSvelteComponent(componentName, styling, variants);
+      return this.generateSvelteComponent(componentName, styling);
     } else {
-      return this.generateVanillaComponent(componentName, styling, variants);
+      return this.generateVanillaComponent(componentName, styling);
     }
   }
 
@@ -202,7 +202,7 @@ DO NOT OUTPUT ANYTHING OTHER THAN VALID JSON.`;
       styleImport = `import styled from 'styled-components';`;
       classNameLogic = `className="${componentName.toLowerCase()}-component"`;
     } else if (isTailwind) {
-      classNameLogic = `className="inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none"`;
+      classNameLogic = `className="inline-flex justify-center items-center font-medium rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none"`;
     } else {
       classNameLogic = `className="${componentName.toLowerCase()}-component"`;
     }
@@ -242,7 +242,7 @@ const ${componentName} = forwardRef<HTMLButtonElement, ${componentName}Props>(
         {...props}
       >
         {isLoading && (
-          <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+          <div className="mr-2 w-4 h-4 rounded-full border-2 border-current animate-spin border-t-transparent" />
         )}
         {children}
       </button>
@@ -273,7 +273,7 @@ export { ${componentName} };`;
     :disabled="isLoading"
     @click="$emit('click', $event)"
   >
-    <div v-if="isLoading" class="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"></div>
+    <div v-if="isLoading" class="mr-2 w-4 h-4 rounded-full border-2 border-current animate-spin border-t-transparent"></div>
     <slot />
   </button>
 </template>
@@ -337,7 +337,7 @@ ${styleTag}
       [disabled]="isLoading"
       (click)="onClick.emit($event)"
     >
-      <div *ngIf="isLoading" class="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"></div>
+      <div *ngIf="isLoading" class="mr-2 w-4 h-4 rounded-full border-2 border-current animate-spin border-t-transparent"></div>
       <ng-content></ng-content>
     </button>
   \`,
@@ -371,55 +371,219 @@ export class ${componentName}Component {
 }`;
   }
 
-  private generateSvelteComponent(componentName: string, styling: string, variants: string[]): string {
+  private generateSvelteComponent(_componentName: string, styling: string): string {
     const isTailwind = styling.toLowerCase().includes('tailwind');
-    
-    return `<script lang="ts">
-  export let variant: '${variants.join("' | '")}' = 'primary';
-  export let size: 'sm' | 'md' | 'lg' = 'md';
-  export let isLoading = false;
+    const isCssModules = styling.toLowerCase().includes('css modules');
+    const isStyledComponents = styling.toLowerCase().includes('styled components');
+    const isEmotion = styling.toLowerCase().includes('emotion');
+    const isSass = styling.toLowerCase().includes('sass') || styling.toLowerCase().includes('scss');
 
+    if (isTailwind) {
+      return `<!-- Svelte Component with Tailwind CSS -->
+<script>
+  export let variant = 'primary';
+  export let size = 'md';
+  export let disabled = false;
+  
   const variantClasses = {
-    primary: 'bg-primary text-primary-foreground hover:bg-primary/90',
-    secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-    ghost: 'hover:bg-accent hover:text-accent-foreground',
-    ${variants.length > 3 ? variants.slice(3).map(v => `${v}: 'bg-${v} text-${v}-foreground hover:bg-${v}/90'`).join(',\n    ') : ''}
+    primary: 'bg-brand-600 text-white hover:bg-brand-700 focus:ring-brand-500',
+    secondary: 'bg-white text-brand-700 border border-brand-300 hover:bg-brand-50 focus:ring-brand-500',
+    ghost: 'text-brand-700 hover:bg-brand-100 focus:ring-brand-500'
   };
   
   const sizeClasses = {
-    sm: 'h-9 px-3 text-sm',
-    md: 'h-10 px-4 py-2',
-    lg: 'h-11 px-8 text-lg'
+    sm: 'px-3 py-1.5 text-sm',
+    md: 'px-4 py-2 text-base',
+    lg: 'px-6 py-3 text-lg'
   };
-
-  const baseClasses = 'inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none';
+  
+  $: buttonClasses = \`\${variantClasses[variant]} \${sizeClasses[size]} \${disabled ? 'opacity-50 cursor-not-allowed' : ''} rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2\`;
 </script>
 
-<button
-  class="\${baseClasses} \${variantClasses[variant]} \${sizeClasses[size]}"
-  disabled={isLoading}
-  on:click
->
-  {#if isLoading}
-    <div class="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"></div>
-  {/if}
+<button class={buttonClasses} {disabled} on:click>
+  <slot />
+</button>`;
+    } else if (isCssModules) {
+      return `<!-- Svelte Component with CSS Modules -->
+<script>
+  export let variant = 'primary';
+  export let size = 'md';
+  export let disabled = false;
+  
+  import styles from './Button.module.css';
+  
+  $: buttonClasses = [
+    styles.button,
+    styles[variant],
+    styles[size],
+    disabled && styles.disabled
+  ].filter(Boolean).join(' ');
+</script>
+
+<button class={buttonClasses} {disabled} on:click>
   <slot />
 </button>
 
 <style>
-  button:focus-visible {
-    outline: 2px solid #3b82f6;
-    outline-offset: 2px;
-  }
+  /* Button.module.css would contain the styles */
+</style>`;
+    } else if (isStyledComponents || isEmotion) {
+      return `<!-- Svelte Component with CSS-in-JS approach -->
+<script>
+  export let variant = 'primary';
+  export let size = 'md';
+  export let disabled = false;
+  
+  // Note: Svelte doesn't have styled-components, but you can use CSS-in-JS libraries
+  // This is a conceptual example showing the structure
+</script>
 
-  button:disabled {
+<button class="button {variant} {size}" class:disabled {disabled} on:click>
+  <slot />
+</button>
+
+<style>
+  .button {
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  
+  .button.primary {
+    background-color: #29405A;
+    color: white;
+  }
+  
+  .button.secondary {
+    background-color: white;
+    color: #29405A;
+    border: 1px solid #cbd5e1;
+  }
+  
+  .button.ghost {
+    background-color: transparent;
+    color: #29405A;
+  }
+  
+  .button.sm { padding: 0.375rem 0.75rem; font-size: 0.875rem; }
+  .button.md { padding: 0.5rem 1rem; font-size: 1rem; }
+  .button.lg { padding: 0.75rem 1.5rem; font-size: 1.125rem; }
+  
+  .button.disabled {
     opacity: 0.5;
     cursor: not-allowed;
   }
 </style>`;
+    } else if (isSass) {
+      return `<!-- Svelte Component with SASS/SCSS -->
+<script>
+  export let variant = 'primary';
+  export let size = 'md';
+  export let disabled = false;
+</script>
+
+<button class="button button--{variant} button--{size}" class:disabled {disabled} on:click>
+  <slot />
+</button>
+
+<style lang="scss">
+  .button {
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    cursor: pointer;
+    
+    &--primary {
+      background-color: #29405A;
+      color: white;
+      
+      &:hover:not(.disabled) {
+        background-color: #395A7E;
+      }
+    }
+    
+    &--secondary {
+      background-color: white;
+      color: #29405A;
+      border: 1px solid #cbd5e1;
+      
+      &:hover:not(.disabled) {
+        background-color: #f8fafc;
+      }
+    }
+    
+    &--ghost {
+      background-color: transparent;
+      color: #29405A;
+      
+      &:hover:not(.disabled) {
+        background-color: #f1f5f9;
+      }
+    }
+    
+    &--sm { padding: 0.375rem 0.75rem; font-size: 0.875rem; }
+    &--md { padding: 0.5rem 1rem; font-size: 1rem; }
+    &--lg { padding: 0.75rem 1.5rem; font-size: 1.125rem; }
+    
+    &.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+</style>`;
+    } else {
+      return `<!-- Svelte Component with Vanilla CSS -->
+<script>
+  export let variant = 'primary';
+  export let size = 'md';
+  export let disabled = false;
+</script>
+
+<button class="button button--{variant} button--{size}" class:disabled {disabled} on:click>
+  <slot />
+</button>
+
+<style>
+  .button {
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  
+  .button--primary {
+    background-color: #29405A;
+    color: white;
+  }
+  
+  .button--secondary {
+    background-color: white;
+    color: #29405A;
+    border: 1px solid #cbd5e1;
+  }
+  
+  .button--ghost {
+    background-color: transparent;
+    color: #29405A;
+  }
+  
+  .button--sm { padding: 0.375rem 0.75rem; font-size: 0.875rem; }
+  .button--md { padding: 0.5rem 1rem; font-size: 1rem; }
+  .button--lg { padding: 0.75rem 1.5rem; font-size: 1.125rem; }
+  
+  .button.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+</style>`;
+    }
   }
 
-  private generateVanillaComponent(componentName: string, styling: string, variants: string[]): string {
+  private generateVanillaComponent(componentName: string, styling: string): string {
     return `// ${componentName} Component for Vanilla JavaScript with ${styling}
 
 class ${componentName} {

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { TrendingUp, Code, Wand2, Palette, Settings, Bot, BookOpen } from 'lucide-react';
+import { TrendingUp, Wand2, Palette, Settings, Bot, BookOpen } from 'lucide-react';
 import Dashboard from './components/Dashboard';
 import ComponentLibrary from './components/ComponentLibrary';
 import CodeGenerator from './components/CodeGenerator';
@@ -17,13 +17,13 @@ const App = () => {
     { id: 'tokens', label: 'Design Tokens', icon: Palette },
   ];
 
-  const handleComponentSelect = (component: SavedComponent) => {
+  const handleComponentSelect = (_component: SavedComponent) => {
     // Navigate to generator with component data
     setActiveTab('generator');
     // You could also pass the component data to pre-populate the generator
   };
 
-  const handleComponentEdit = (component: SavedComponent) => {
+  const handleComponentEdit = (_component: SavedComponent) => {
     // Navigate to generator with component data for editing
     setActiveTab('generator');
     // You could also pass the component data to pre-populate the generator
@@ -34,7 +34,7 @@ const App = () => {
     console.log('Component deleted:', componentId);
   };
 
-  const handleComponentDuplicate = (component: SavedComponent) => {
+  const handleComponentDuplicate = (_component: SavedComponent) => {
     // Navigate to generator with duplicated component data
     setActiveTab('generator');
     // You could also pass the component data to pre-populate the generator

@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Wand2, CheckCircle, Copy, RotateCcw, AlertCircle, Save, BookOpen } from 'lucide-react';
 import { aiService } from '../services/aiService';
 import { libraryService } from '../services/libraryService';
-import type { SavedComponent } from '../types';
 
 interface CodeGeneratorProps {
   isGenerating: boolean;

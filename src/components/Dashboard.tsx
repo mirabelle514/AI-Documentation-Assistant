@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Code, Palette, TrendingUp, CheckCircle, Bot, Lightbulb, Wifi, WifiOff, ExternalLink, BookOpen, Star, Zap } from 'lucide-react';
+import { Code, Palette, TrendingUp, Bot, Lightbulb, Wifi, WifiOff, ExternalLink, BookOpen, Star, Zap } from 'lucide-react';
 import { storybookService } from '../services/storybookService';
 import { libraryService } from '../services/libraryService';
 import { designTokens, aiInsights } from '../data/mockData';
@@ -46,9 +46,6 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
   };
 
   const avgUsage = components.length > 0 ? Math.round(components.reduce((acc, comp) => acc + comp.usage, 0) / components.length) : 0;
-  const accessibilityScore = components.length > 0 ? Math.round(
-    components.reduce((acc, comp) => acc + (comp.accessibility === 'AAA' ? 100 : 85), 0) / components.length
-  ) : 0;
 
   const openStorybook = () => {
     storybookService.openStorybook();
