@@ -1,35 +1,76 @@
 #!/bin/bash
 
-echo "Preparing AI Design System for cPanel deployment..."
+# 🚀 AI Design System Deployment Script
+# This script builds and prepares your application for cPanel deployment
 
-# Check if dist folder exists
-if [ ! -d "dist" ]; then
-    echo "Error: dist folder not found. Run 'npm run build' first."
+echo "🎨 AI Design System - Deployment Script"
+echo "========================================"
+
+# Check if we're in the right directory
+if [ ! -f "package.json" ]; then
+    echo "❌ Error: Please run this script from the project root directory"
     exit 1
 fi
 
+# Install dependencies if needed
+echo "📦 Checking dependencies..."
+if [ ! -d "node_modules" ]; then
+    echo "📥 Installing dependencies..."
+    npm install
+else
+    echo "✅ Dependencies already installed"
+fi
+
+# Build the application
+echo "🔨 Building production version..."
+npm run build
+
+if [ $? -eq 0 ]; then
+    echo "✅ Build successful!"
+else
+    echo "❌ Build failed! Please check the error messages above"
+    exit 1
+fi
+
+# Check build output
+echo "📁 Build output:"
+ls -la dist/
+echo ""
+
 # Create deployment package
-echo "Creating deployment package..."
-mkdir -p deployment
-cp -r dist/* deployment/
+echo "📦 Creating deployment package..."
+if [ -d "deploy" ]; then
+    rm -rf deploy
+fi
 
-# Show what will be uploaded
-echo ""
-echo "Files ready for cPanel upload:"
-echo "=================================="
-find deployment -type f | sort
+mkdir deploy
+cp -r dist/* deploy/
+cp CPANEL_DEPLOYMENT.md deploy/
+cp SETUP_GUIDE.md deploy/
 
-echo ""
-echo "File sizes:"
-echo "=============="
-du -h deployment/* deployment/assets/*
+# Create a simple upload script
+cat > deploy/upload-instructions.txt << 'EOF'
+🚀 UPLOAD INSTRUCTIONS FOR CPANEL
 
+1. Log into your cPanel
+2. Go to File Manager
+3. Navigate to public_html/ (or your desired directory)
+4. Upload ALL files from this folder to your web root
+5. Maintain the folder structure exactly as shown
+
+IMPORTANT: Keep the assets/ folder structure intact!
+
+After upload, visit your domain to test the application.
+EOF
+
+echo "✅ Deployment package created in 'deploy/' folder"
 echo ""
-echo "Deployment package ready in 'deployment/' folder!"
+echo "📋 Next steps:"
+echo "1. Upload the contents of 'deploy/' folder to your cPanel"
+echo "2. Follow the instructions in CPANEL_DEPLOYMENT.md"
+echo "3. Test your application at your domain"
 echo ""
-echo "Next steps:"
-echo "1. Upload the contents of 'deployment/' to your cPanel public_html directory"
-echo "2. Ensure file permissions are set correctly (644 for files, 755 for folders)"
-echo "3. Test your deployed application"
+echo "🎉 Your AI Design System is ready for deployment!"
 echo ""
-echo "See DEPLOYMENT.md for detailed instructions"
+echo "📁 Files to upload:"
+ls -la deploy/
