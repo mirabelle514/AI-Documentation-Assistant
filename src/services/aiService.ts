@@ -139,16 +139,18 @@ DO NOT OUTPUT ANYTHING OTHER THAN VALID JSON.`;
 
   private getComponentSpecifications(componentName: string, componentDetails?: { variants: string[]; description?: string; category: string }): string {
     const baseSpecs: Record<string, string> = {
-      'Button': '- Should support different variants (primary, secondary, ghost, danger)\n- Should support different sizes\n- Should handle loading states\n- Should support icon placement',
-      'Card': '- Should be composable with CardHeader, CardContent, CardFooter\n- Should support different elevations\n- Should support different border styles',
-      'Modal': '- Should handle focus management\n- Should support different sizes\n- Should include backdrop click handling\n- Should support custom close behavior',
-      'Input': '- Should support different input types\n- Should include error states\n- Should support helper text\n- Should include proper labeling',
-      'Dropdown': '- Should support keyboard navigation\n- Should handle outside clicks\n- Should support search/filtering\n- Should support multi-select',
-      'Tooltip': '- Should support multiple trigger types\n- Should handle positioning automatically\n- Should include proper delay timing\n- Should be accessible with keyboard navigation',
-      'Badge': '- Should support different variants and colors\n- Should support different sizes\n- Should handle text overflow\n- Should support icon integration',
-      'Alert': '- Should support different severity levels\n- Should include dismissible functionality\n- Should support custom icons\n- Should handle action buttons',
-      'Accordion': '- Should support single and multiple open items\n- Should include smooth animations\n- Should handle keyboard navigation\n- Should support custom trigger content',
-      'Tabs': '- Should support horizontal and vertical orientations\n- Should handle keyboard navigation\n- Should support disabled states\n- Should include proper ARIA attributes'
+      'Button': '- Should support different variants (primary, secondary, ghost, danger)\n- Should support different sizes (sm, md, lg)\n- Should handle loading states\n- Should support icon placement (left, right)\n- Should include proper focus states and accessibility\n- Should support disabled states',
+      'Card': '- Should be composable with CardHeader, CardContent, CardFooter\n- Should support different elevations (flat, raised, floating)\n- Should support different border styles and radius\n- Should handle hover and focus states\n- Should support custom padding and spacing',
+      'Modal': '- Should handle focus management and trap focus\n- Should support different sizes (sm, md, lg, full)\n- Should include backdrop click handling\n- Should support custom close behavior\n- Should include proper ARIA attributes\n- Should support custom content and actions',
+      'Input': '- Should support different input types (text, email, password, number)\n- Should include error states and validation\n- Should support helper text and error messages\n- Should include proper labeling and accessibility\n- Should support different sizes and variants\n- Should handle focus and hover states',
+      'Dropdown': '- Should support keyboard navigation (arrow keys, enter, escape)\n- Should handle outside clicks and focus management\n- Should support search/filtering functionality\n- Should support multi-select options\n- Should include proper ARIA attributes\n- Should support custom trigger elements',
+      'Tooltip': '- Should support multiple trigger types (hover, focus, click)\n- Should handle positioning automatically (top, bottom, left, right)\n- Should include proper delay timing and animations\n- Should be accessible with keyboard navigation\n- Should support custom content and styling',
+      'Badge': '- Should support different variants and colors (success, warning, error, info)\n- Should support different sizes (sm, md, lg)\n- Should handle text overflow gracefully\n- Should support icon integration\n- Should include proper contrast ratios\n- Should support custom styling',
+      'Alert': '- Should support different severity levels (info, success, warning, error)\n- Should include dismissible functionality\n- Should support custom icons for each level\n- Should handle action buttons and links\n- Should include proper ARIA roles and attributes\n- Should support different layouts and styles',
+      'Accordion': '- Should support single and multiple open items\n- Should include smooth animations and transitions\n- Should handle keyboard navigation properly\n- Should support custom trigger content and styling\n- Should include proper ARIA attributes\n- Should support different variants and themes',
+      'Tabs': '- Should support horizontal and vertical orientations\n- Should handle keyboard navigation (arrow keys, home, end)\n- Should support disabled states and proper styling\n- Should include proper ARIA attributes and roles\n- Should support custom tab content and styling\n- Should handle dynamic tab addition/removal',
+      'Checkbox': '- Should support different sizes and variants\n- Should include proper labeling and accessibility\n- Should handle indeterminate states\n- Should support custom styling and themes\n- Should include proper focus states\n- Should support form integration',
+      'Radio': '- Should support different sizes and variants\n- Should include proper grouping and accessibility\n- Should handle selection states correctly\n- Should support custom styling and themes\n- Should include proper focus states\n- Should support form integration'
     };
 
     const specificSpecs: Record<string, string> = {};
@@ -165,20 +167,54 @@ DO NOT OUTPUT ANYTHING OTHER THAN VALID JSON.`;
     }
 
     const allSpecs = { ...baseSpecs, ...specificSpecs };
-    return allSpecs[componentName] || '- Should follow standard component patterns\n- Should include proper accessibility features';
+    return allSpecs[componentName] || '- Should follow standard component patterns\n- Should include proper accessibility features\n- Should support customization and theming\n- Should handle edge cases gracefully';
   }
 
   private generateFallbackCode(componentName: string, framework: string, styling: string, componentDetails?: { variants: string[]; description?: string; category: string }): string {
     const variants = componentDetails?.variants || ['primary', 'secondary', 'ghost'];
     
-    if (framework.includes('react')) {
-      return `import React, { forwardRef, ButtonHTMLAttributes } from 'react';
-import { cn } from '@/lib/utils';
+    // Framework-specific code generation
+    if (framework.includes('react') || framework.includes('typescript')) {
+      return this.generateReactComponent(componentName, styling, variants);
+    } else if (framework.includes('vue')) {
+      return this.generateVueComponent(componentName, styling, variants);
+    } else if (framework.includes('angular')) {
+      return this.generateAngularComponent(componentName, styling, variants);
+    } else if (framework.includes('svelte')) {
+      return this.generateSvelteComponent(componentName, styling, variants);
+    } else {
+      return this.generateVanillaComponent(componentName, styling, variants);
+    }
+  }
+
+  private generateReactComponent(componentName: string, styling: string, variants: string[]): string {
+    const isTailwind = styling.toLowerCase().includes('tailwind');
+    const isCssModules = styling.toLowerCase().includes('css modules');
+    const isStyledComponents = styling.toLowerCase().includes('styled components');
+    
+    let styleImport = '';
+    let classNameLogic = '';
+    
+    if (isCssModules) {
+      styleImport = `import styles from './${componentName}.module.css';`;
+      classNameLogic = `className={styles.${componentName.toLowerCase()}}`;
+    } else if (isStyledComponents) {
+      styleImport = `import styled from 'styled-components';`;
+      classNameLogic = `className="${componentName.toLowerCase()}-component"`;
+    } else if (isTailwind) {
+      classNameLogic = `className="inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none"`;
+    } else {
+      classNameLogic = `className="${componentName.toLowerCase()}-component"`;
+    }
+
+    return `import React, { forwardRef, ButtonHTMLAttributes } from 'react';
+${styleImport}
 
 export interface ${componentName}Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: '${variants.join("' | '")}';
   size?: 'sm' | 'md' | 'lg';
   isLoading?: boolean;
+  children: React.ReactNode;
 }
 
 const ${componentName} = forwardRef<HTMLButtonElement, ${componentName}Props>(
@@ -200,12 +236,7 @@ const ${componentName} = forwardRef<HTMLButtonElement, ${componentName}Props>(
 
     return (
       <button
-        className={cn(
-          baseClasses,
-          variantClasses[variant as keyof typeof variantClasses],
-          sizeClasses[size],
-          className
-        )}
+        ${classNameLogic}
         ref={ref}
         disabled={isLoading}
         {...props}
@@ -222,21 +253,231 @@ const ${componentName} = forwardRef<HTMLButtonElement, ${componentName}Props>(
 ${componentName}.displayName = '${componentName}';
 
 export { ${componentName} };`;
-    }
-    
-    // Fallback for other frameworks
-    return `// ${componentName} component for ${framework} with ${styling}
-// This is a fallback template. Configure your API key for AI-generated code.
+  }
 
-export const ${componentName} = () => {
-  return (
-    <div className="${componentName.toLowerCase()}-component">
-      <h3>${componentName}</h3>
-      <p>Component template for ${framework} with ${styling}</p>
-      <p>Variants: ${variants.join(', ')}</p>
-    </div>
-  );
-};`;
+  private generateVueComponent(componentName: string, styling: string, variants: string[]): string {
+    const isTailwind = styling.toLowerCase().includes('tailwind');
+    const isScoped = styling.toLowerCase().includes('scoped');
+    
+    const styleTag = isScoped ? '<style scoped>' : '<style>';
+    const tailwindClasses = isTailwind ? 'inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none' : '';
+
+    return `<template>
+  <button
+    :class="[
+      '${componentName.toLowerCase()}-component',
+      variantClasses[variant],
+      sizeClasses[size],
+      { 'opacity-50 cursor-not-allowed': isLoading }
+    ]"
+    :disabled="isLoading"
+    @click="$emit('click', $event)"
+  >
+    <div v-if="isLoading" class="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"></div>
+    <slot />
+  </button>
+</template>
+
+<script setup lang="ts">
+import { computed } from 'vue';
+
+interface Props {
+  variant?: '${variants.join("' | '")}';
+  size?: 'sm' | 'md' | 'lg';
+  isLoading?: boolean;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  variant: 'primary',
+  size: 'md',
+  isLoading: false
+});
+
+const variantClasses = {
+  primary: 'bg-primary text-primary-foreground hover:bg-primary/90',
+  secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+  ghost: 'hover:bg-accent hover:text-accent-foreground',
+  ${variants.length > 3 ? variants.slice(3).map(v => `${v}: 'bg-${v} text-${v}-foreground hover:bg-${v}/90'`).join(',\n  ') : ''}
+};
+
+const sizeClasses = {
+  sm: 'h-9 px-3 text-sm',
+  md: 'h-10 px-4 py-2',
+  lg: 'h-11 px-8 text-lg'
+};
+</script>
+
+${styleTag}
+.${componentName.toLowerCase()}-component {
+  ${isTailwind ? tailwindClasses : 'display: inline-flex; align-items: center; justify-content: center; border-radius: 0.375rem; font-weight: 500; transition: all 0.2s;'}
+}
+
+.${componentName.toLowerCase()}-component:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.${componentName.toLowerCase()}-component:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+</style>`;
+  }
+
+  private generateAngularComponent(componentName: string, styling: string, variants: string[]): string {
+    const isTailwind = styling.toLowerCase().includes('tailwind');
+    
+    return `import { Component, Input, Output, EventEmitter } from '@angular/core';
+
+@Component({
+  selector: 'app-${componentName.toLowerCase()}',
+  template: \`
+    <button
+      [class]="getClasses()"
+      [disabled]="isLoading"
+      (click)="onClick.emit($event)"
+    >
+      <div *ngIf="isLoading" class="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"></div>
+      <ng-content></ng-content>
+    </button>
+  \`,
+  styleUrls: ['./${componentName.toLowerCase()}.component.${isTailwind ? 'css' : 'scss'}']
+})
+export class ${componentName}Component {
+  @Input() variant: '${variants.join("' | '")}' = 'primary';
+  @Input() size: 'sm' | 'md' | 'lg' = 'md';
+  @Input() isLoading = false;
+  
+  @Output() onClick = new EventEmitter<Event>();
+
+  getClasses(): string {
+    const baseClasses = 'inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none';
+    
+    const variantClasses = {
+      primary: 'bg-primary text-primary-foreground hover:bg-primary/90',
+      secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+      ghost: 'hover:bg-accent hover:text-accent-foreground',
+      ${variants.length > 3 ? variants.slice(3).map(v => `${v}: 'bg-${v} text-${v}-foreground hover:bg-${v}/90'`).join(',\n      ') : ''}
+    };
+    
+    const sizeClasses = {
+      sm: 'h-9 px-3 text-sm',
+      md: 'h-10 px-4 py-2',
+      lg: 'h-11 px-8 text-lg'
+    };
+
+    return \`\${baseClasses} \${variantClasses[this.variant]} \${sizeClasses[this.size]}\`;
+  }
+}`;
+  }
+
+  private generateSvelteComponent(componentName: string, styling: string, variants: string[]): string {
+    const isTailwind = styling.toLowerCase().includes('tailwind');
+    
+    return `<script lang="ts">
+  export let variant: '${variants.join("' | '")}' = 'primary';
+  export let size: 'sm' | 'md' | 'lg' = 'md';
+  export let isLoading = false;
+
+  const variantClasses = {
+    primary: 'bg-primary text-primary-foreground hover:bg-primary/90',
+    secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+    ghost: 'hover:bg-accent hover:text-accent-foreground',
+    ${variants.length > 3 ? variants.slice(3).map(v => `${v}: 'bg-${v} text-${v}-foreground hover:bg-${v}/90'`).join(',\n    ') : ''}
+  };
+  
+  const sizeClasses = {
+    sm: 'h-9 px-3 text-sm',
+    md: 'h-10 px-4 py-2',
+    lg: 'h-11 px-8 text-lg'
+  };
+
+  const baseClasses = 'inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none';
+</script>
+
+<button
+  class="\${baseClasses} \${variantClasses[variant]} \${sizeClasses[size]}"
+  disabled={isLoading}
+  on:click
+>
+  {#if isLoading}
+    <div class="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"></div>
+  {/if}
+  <slot />
+</button>
+
+<style>
+  button:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+</style>`;
+  }
+
+  private generateVanillaComponent(componentName: string, styling: string, variants: string[]): string {
+    return `// ${componentName} Component for Vanilla JavaScript with ${styling}
+
+class ${componentName} {
+  constructor(options = {}) {
+    this.variant = options.variant || 'primary';
+    this.size = options.size || 'md';
+    this.isLoading = options.isLoading || false;
+    this.onClick = options.onClick || (() => {});
+    
+    this.element = this.createElement();
+    this.render();
+  }
+
+  createElement() {
+    const button = document.createElement('button');
+    button.className = \`${componentName.toLowerCase()}-component \${this.variant} \${this.size}\`;
+    button.addEventListener('click', this.onClick);
+    return button;
+  }
+
+  render() {
+    this.element.innerHTML = \`
+      \${this.isLoading ? '<div class="loading-spinner"></div>' : ''}
+      <span class="content"></span>
+    \`;
+    
+    this.element.disabled = this.isLoading;
+  }
+
+  setVariant(variant) {
+    this.variant = variant;
+    this.element.className = \`${componentName.toLowerCase()}-component \${this.variant} \${this.size}\`;
+  }
+
+  setSize(size) {
+    this.size = size;
+    this.element.className = \`${componentName.toLowerCase()}-component \${this.variant} \${this.size}\`;
+  }
+
+  setLoading(isLoading) {
+    this.isLoading = isLoading;
+    this.render();
+  }
+
+  destroy() {
+    this.element.remove();
+  }
+}
+
+// Usage example:
+// const button = new ${componentName}({
+//   variant: 'primary',
+//   size: 'md',
+//   onClick: () => console.log('Button clicked!')
+// });
+// document.body.appendChild(button.element);
+
+export { ${componentName} };`;
   }
 }
 
