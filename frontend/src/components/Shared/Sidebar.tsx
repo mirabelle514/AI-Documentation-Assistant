@@ -1,9 +1,9 @@
-import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { MessageCircle, Search, Upload, BarChart2 } from 'lucide-react';
+import { Home, MessageCircle, Search, Upload, BarChart2 } from 'lucide-react';
 
 const nav = [
-  { to: '/', label: 'Home', icon: MessageCircle },
+  { to: '/', label: 'Overview', icon: Home },
+  { to: '/chat', label: 'Chat', icon: MessageCircle },
   { to: '/search', label: 'Search', icon: Search },
   { to: '/upload', label: 'Upload', icon: Upload },
   { to: '/analytics', label: 'Analytics', icon: BarChart2 },

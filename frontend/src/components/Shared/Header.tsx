@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { MessageCircle } from 'lucide-react';
 
@@ -12,7 +11,7 @@ export const Header: React.FC = () => {
           </div>
           <div className="leading-tight">
             <div className="text-base font-semibold text-gray-900">AI Documentation Assistant</div>
-            <div className="text-xs text-gray-500">Local Dev</div>
+            <div className="text-xs text-gray-500">Atelier Design System</div>
           </div>
         </Link>
         <div className="text-sm text-gray-500">v0</div>
