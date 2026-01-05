@@ -94,7 +94,8 @@ docker-compose up -d
 
 ### 5. Initial Data
 
-The database is pre-seeded with sample documentation. To add your own:
+The database is pre-seeded with sample documentation. 
+To add your own:
 
 1. Navigate to "Upload Docs" in the UI
 2. Or use the /api/v1/documents endpoint
@@ -248,4 +249,4 @@ MIT
 
 ## Author
 
-Mirabelle Doiron
+Removed (project template)
