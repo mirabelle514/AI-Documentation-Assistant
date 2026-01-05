@@ -1,4 +1,4 @@
-# AI Documentation Assistant
+# AI-Powered Documentation Assistant
 
 An AI-powered assistant for searching and interacting with design system documentation using RAG (Retrieval-Augmented Generation).
 
