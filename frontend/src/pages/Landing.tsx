@@ -4,13 +4,13 @@ import { ArrowRight, BookOpen, Search, MessageCircle, Upload, BarChart2 } from '
 export function Landing() {
   return (
     <div className="space-y-10">
-      <section className="rounded-2xl bg-gradient-to-br from-blue-50 to-purple-50 border border-gray-200 p-8">
+      <section className="rounded-2xl bg-gradient-to-br from-atelier-mutedBg to-white border border-atelier-border p-8">
         <div className="max-w-3xl">
-          <div className="text-xs font-semibold tracking-wide text-blue-700 uppercase mb-3">
+          <div className="text-xs font-semibold tracking-wide text-atelier-primary uppercase mb-3">
             Atelier Design System
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight">
-            AI Documentation Assistant
+            Mirabelle's AI Documentation Assistant
           </h1>
           <p className="mt-3 text-gray-700 text-base sm:text-lg">
             Centralize your design system knowledge in one place. Upload documentation, run semantic search,
@@ -20,13 +20,13 @@ export function Landing() {
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
               to="/chat"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-atelier bg-atelier-primary text-white hover:opacity-95 transition-opacity"
             >
               Start chatting <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
               to="/upload"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white border border-gray-300 text-gray-800 hover:bg-gray-50 transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-atelier bg-white border border-atelier-border text-gray-800 hover:bg-atelier-mutedBg transition-colors"
             >
               Upload docs <Upload className="w-4 h-4" />
             </Link>
@@ -74,9 +74,9 @@ export function Landing() {
 
 function Card(props: { icon: React.ReactNode; title: string; body: string; to?: string }) {
   const content = (
-    <div className="h-full bg-white rounded-xl border border-gray-200 p-5 hover:shadow-sm transition-shadow">
+    <div className="h-full bg-white rounded-atelier border border-atelier-border p-5 hover:shadow-sm transition-shadow">
       <div className="flex items-center gap-2 text-gray-900 font-semibold">
-        <span className="text-blue-700">{props.icon}</span>
+        <span className="text-atelier-primary">{props.icon}</span>
         {props.title}
       </div>
       <p className="mt-2 text-sm text-gray-700">{props.body}</p>
