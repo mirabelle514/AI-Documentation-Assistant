@@ -88,9 +88,9 @@ docker-compose up -d
 ```
 ### 4. Access the Application
 
-Frontend: http://localhost:3000
-Backend API: http://localhost:8080
-Health Check: http://localhost:8080/health
+1. Frontend: http://localhost:3000
+2. Backend API: http://localhost:8080
+3. Health Check: http://localhost:8080/health
 
 ### 5. Initial Data
 
@@ -212,11 +212,12 @@ docker-compose -f docker-compose.prod.yml up -d
 
 ### Environment Variables
 
--All secrets are stored in environment variables
+- All secrets are stored in environment variables
 - Never commit .env files to version control
 - Use different keys for development/production
 
 ### CORS Configuration
+
 Configure allowed origins in `CORS_ALLOWED_ORIGINS`
 
 ## Rate Limiting
